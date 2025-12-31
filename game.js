@@ -15,21 +15,21 @@ const game = {
 
 // 植物类型配置
 const plantTypes = {
-    sunflower: { cost: 50, hp: 100, emoji: '🌻', cooldown: 24000, produce: 'sun' },
+    sunflower: { cost: 50, hp: 100, emoji: '🌻', cooldown: 10000, produce: 'sun' },
     peashooter: { cost: 100, hp: 200, emoji: '🌱', cooldown: 1500, produce: 'bullet' },
     wallnut: { cost: 50, hp: 800, emoji: '🥜', cooldown: 0, produce: null }
 };
 
 // 僵尸类型配置
 const zombieTypes = {
-    normal: { hp: 100, speed: 0.7, damage: 10, emoji: '🧟' },
-    cone: { hp: 200, speed: 0.56, damage: 10, emoji: '🧟‍♂️' },
-    bucket: { hp: 350, speed: 0.42, damage: 15, emoji: '🧟‍♀️' }
+    normal: { hp: 100, speed: 0.35, damage: 10, emoji: '🧟' },
+    cone: { hp: 200, speed: 0.28, damage: 10, emoji: '🧟‍♂️' },
+    bucket: { hp: 350, speed: 0.21, damage: 15, emoji: '🧟‍♀️' }
 };
 
 // 计算关卡僵尸总数
 function calculateTotalZombies(level) {
-    return Math.min(15 + level * 3, 30);
+    return Math.min(Math.floor(5 + level * 2), 20);
 }
 
 // 初始化游戏板
@@ -159,8 +159,17 @@ function createSunElement(x, y) {
     sun.textContent = '☀';
     sun.style.left = `${x}px`;
     sun.style.top = `${y}px`;
+    sun.style.transition = 'top 2s ease-out';
     sun.onclick = () => collectSun(sun);
     document.getElementById('gameBoard').appendChild(sun);
+
+    if (y === 0) {
+        const finalY = Math.random() * 400 + 50;
+        setTimeout(() => {
+            sun.style.top = `${finalY}px`;
+        }, 50);
+    }
+
     return sun;
 }
 
@@ -327,7 +336,7 @@ function startLevel() {
     document.getElementById('nextLevelBtn').style.display = 'none';
 
     updateProgress();
-    spawnZombiesGradually();
+    setTimeout(spawnZombiesGradually, 12000);
     gameLoop();
 }
 
@@ -335,17 +344,29 @@ function startLevel() {
 function spawnZombiesGradually() {
     if (!game.running || game.spawnedZombies >= game.totalZombies) return;
 
-    const row = Math.floor(Math.random() * 5);
     const progress = game.spawnedZombies / game.totalZombies;
+    const row = Math.floor(Math.random() * 5);
 
     let type = 'normal';
-    if (progress > 0.7 && Math.random() < 0.3) type = 'bucket';
-    else if (progress > 0.4 && Math.random() < 0.4) type = 'cone';
+    let interval = 4000;
+
+    if (progress < 0.3) {
+        type = 'normal';
+        interval = 6000;
+    } else if (progress < 0.8) {
+        type = Math.random() < 0.5 ? 'normal' : 'cone';
+        interval = 4000;
+    } else {
+        const rand = Math.random();
+        if (rand < 0.4) type = 'normal';
+        else if (rand < 0.8) type = 'cone';
+        else type = 'bucket';
+        interval = 2500;
+    }
 
     spawnZombie(type, row);
     game.spawnedZombies++;
 
-    const interval = Math.max(3000 - game.level * 200, 1500);
     setTimeout(spawnZombiesGradually, interval);
 }
 
@@ -405,7 +426,6 @@ updateSunDisplay();
 setInterval(() => {
     if (game.running) {
         const x = Math.random() * 600;
-        const y = Math.random() * 400;
-        spawnSun(x, y);
+        spawnSun(x, 0);
     }
-}, 10000);
+}, 5000);
