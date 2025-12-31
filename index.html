@@ -7,35 +7,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="game-container">
-        <div class="header">
-            <div class="sun-count">阳光: <span id="sunCount">50</span></div>
-            <div class="level-info">关卡: <span id="levelNum">1</span></div>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
+    <!-- 开始界面 -->
+    <div id="startScreen" class="screen">
+        <div class="logo">植物大战僵尸</div>
+        <button id="startAdventureBtn" class="big-btn">开始冒险</button>
+    </div>
+
+    <!-- 选卡界面 -->
+    <div id="selectionScreen" class="screen" style="display:none;">
+        <div class="selection-container">
+            <h2>选择你的植物</h2>
+            <div class="plant-inventory" id="plantInventory"></div>
+            <div class="selected-slots" id="selectedSlots"></div>
+            <button id="letsRockBtn" class="big-btn">一起摇滚吧！</button>
         </div>
+    </div>
 
-        <div class="plant-cards">
-            <div class="card" data-plant="sunflower" data-cost="50">
-                <div class="card-cost">50</div>
-                <div class="card-name">向日葵</div>
+    <!-- 游戏界面 -->
+    <div id="gameScreen" class="screen" style="display:none;">
+        <div class="game-container">
+            <div class="header">
+                <div class="sun-count">阳光: <span id="sunCount">50</span></div>
+                <div class="level-info">关卡: <span id="levelNum">1</span></div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div id="shovelBtn" class="shovel-btn">
+                    <svg viewBox="0 0 100 100" width="40" height="40"><path d="M30 70 L20 80 Q10 90 20 95 Q30 100 40 90 L50 80 L30 70" fill="#8d6e63"/><circle cx="50" cy="50" r="25" fill="#e0e0e0" stroke="#757575" stroke-width="3"/><path d="M50 25 L50 75" stroke="#8d6e63" stroke-width="5"/></svg>
+                </div>
             </div>
-            <div class="card" data-plant="peashooter" data-cost="100">
-                <div class="card-cost">100</div>
-                <div class="card-name">豌豆射手</div>
-            </div>
-            <div class="card" data-plant="wallnut" data-cost="50">
-                <div class="card-cost">50</div>
-                <div class="card-name">坚果墙</div>
-            </div>
+
+            <div class="plant-cards" id="plantCards"></div>
+            <div id="gameBoard" class="game-board"></div>
         </div>
+    </div>
 
-        <div id="gameBoard" class="game-board"></div>
-
-        <div class="controls">
-            <button id="startBtn">开始游戏</button>
-            <button id="nextLevelBtn" style="display:none;">下一关</button>
+    <!-- 胜利/失败弹窗 -->
+    <div id="resultModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2 id="modalTitle"></h2>
+            <p id="modalMessage"></p>
+            <button id="modalBtn" class="big-btn"></button>
         </div>
     </div>
 

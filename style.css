@@ -13,6 +13,105 @@ body {
     min-height: 100vh;
 }
 
+.screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* 开始界面 */
+.logo {
+    font-size: 48px;
+    font-weight: bold;
+    color: #2e7d32;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.big-btn {
+    padding: 15px 40px;
+    font-size: 24px;
+    background: linear-gradient(to bottom, #4CAF50, #388E3C);
+    color: white;
+    border: 3px solid #2e7d32;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    transition: transform 0.2s;
+}
+
+.big-btn:hover {
+    transform: scale(1.05);
+}
+
+/* 选卡界面 */
+.selection-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+}
+
+.selection-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2e7d32;
+}
+
+.plant-inventory {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    gap: 10px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: #f5f5f5;
+    border-radius: 10px;
+}
+
+.selected-slots {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #e8f5e9;
+    border-radius: 10px;
+    min-height: 120px;
+}
+
+.inventory-card, .slot-card {
+    width: 90px;
+    height: 110px;
+    background: white;
+    border: 3px solid #5d4037;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.inventory-card:hover, .slot-card:hover {
+    transform: scale(1.05);
+}
+
+.inventory-card.selected {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.slot-placeholder {
+    width: 90px;
+    height: 110px;
+    border: 3px dashed #999;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.5);
+}
+
+/* 游戏界面 */
 .game-container {
     background: rgba(255, 255, 255, 0.9);
     padding: 20px;
@@ -29,6 +128,27 @@ body {
     font-weight: bold;
     flex-wrap: wrap;
     gap: 10px;
+    position: relative;
+}
+
+.shovel-btn {
+    cursor: pointer;
+    padding: 5px;
+    border: 2px solid #757575;
+    border-radius: 5px;
+    background: #fff;
+    transition: all 0.2s;
+}
+
+.shovel-btn:hover {
+    background: #f0f0f0;
+    transform: scale(1.1);
+}
+
+.shovel-btn.active {
+    background: #ffeb3b;
+    border-color: #f57c00;
+    box-shadow: 0 0 10px #ff9800;
 }
 
 .progress-container {
@@ -36,8 +156,18 @@ body {
     height: 20px;
     background: #333;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible;
     border: 2px solid #000;
+    position: relative;
+}
+
+.progress-container::after {
+    content: '🚩';
+    position: absolute;
+    left: 75%;
+    top: -5px;
+    font-size: 24px;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5));
 }
 
 .progress-bar {
@@ -64,14 +194,15 @@ body {
 
 .card {
     width: 80px;
-    height: 90px;
-    background: linear-gradient(to bottom, #8B4513, #654321);
-    border: 3px solid #000;
+    height: 100px;
+    background: white;
+    border: 3px solid #5d4037;
     border-radius: 8px;
     cursor: pointer;
-    text-align: center;
-    padding: 5px;
-    color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
     transition: transform 0.2s;
 }
 
@@ -89,37 +220,72 @@ body {
     cursor: not-allowed;
 }
 
-.card-cost {
-    font-size: 14px;
-    font-weight: bold;
-    color: #FFD700;
+.card-img {
+    height: 70%;
+    background: #eef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.card-name {
-    font-size: 12px;
-    margin-top: 5px;
+.card-info {
+    height: 30%;
+    background: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    padding: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cd-mask {
+    background: rgba(0,0,0,0.7);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 0%;
+    transition: height 0.1s linear;
+    pointer-events: none;
 }
 
 .game-board {
     display: grid;
     grid-template-columns: repeat(9, 70px);
     grid-template-rows: repeat(5, 100px);
-    gap: 2px;
-    background: #228B22;
+    gap: 0;
+    background: #2d5016;
     padding: 10px;
     border: 3px solid #000;
     position: relative;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
 }
 
 .cell {
-    background: rgba(144, 238, 144, 0.5);
-    border: 1px solid #006400;
+    background: #a2d149;
+    border: 1px solid rgba(0, 50, 0, 0.15);
     position: relative;
     cursor: pointer;
+    transition: all 0.2s;
+}
+
+.cell:nth-child(10n+1),
+.cell:nth-child(10n+3),
+.cell:nth-child(10n+5),
+.cell:nth-child(10n+7),
+.cell:nth-child(10n+9),
+.cell:nth-child(10n+12),
+.cell:nth-child(10n+14),
+.cell:nth-child(10n+16),
+.cell:nth-child(10n+18) {
+    background: #8ebf42;
 }
 
 .cell:hover {
-    background: rgba(255, 255, 0, 0.3);
+    background: rgba(255, 255, 100, 0.6) !important;
+    border: 2px solid #fff;
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.5);
 }
 
 .plant {
@@ -133,6 +299,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 40px;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
 }
 
 .plant .hp-bar {
@@ -161,6 +328,13 @@ body {
     justify-content: center;
     font-size: 40px;
     transition: left 0.5s linear;
+    filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.4));
+    animation: zombieWalk 0.5s infinite alternate;
+}
+
+@keyframes zombieWalk {
+    0% { transform: rotate(-2deg); }
+    100% { transform: rotate(2deg); }
 }
 
 .zombie .hp-bar {
@@ -189,6 +363,12 @@ body {
     transition: left 0.1s linear;
 }
 
+.ice-bullet {
+    background: #87CEEB;
+    border-color: #4682B4;
+    box-shadow: 0 0 5px #87CEEB;
+}
+
 .sun {
     width: 40px;
     height: 40px;
@@ -200,45 +380,87 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 20px;
-    animation: sunGlow 1s infinite;
+    animation: sunGlow 1s infinite, sunRotate 2s linear infinite;
     box-shadow: 0 0 10px #FFD700;
 }
 
 @keyframes sunGlow {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    0%, 100% { transform: scale(1) rotate(var(--rotation, 0deg)); }
+    50% { transform: scale(1.1) rotate(var(--rotation, 0deg)); }
 }
 
-.controls {
-    margin-top: 15px;
+@keyframes sunRotate {
+    from { --rotation: 0deg; }
+    to { --rotation: 360deg; }
+}
+
+/* 弹窗 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
     text-align: center;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 5px;
+.modal-content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #2e7d32;
 }
 
-button:hover {
-    background: #45a049;
+.modal-content p {
+    font-size: 18px;
+    margin-bottom: 30px;
 }
 
-.game-over {
+.zombie-alert {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(255, 0, 0, 0.9);
     color: white;
-    padding: 40px;
-    border-radius: 10px;
+    padding: 40px 80px;
+    border-radius: 15px;
     text-align: center;
-    font-size: 24px;
+    font-size: 48px;
+    font-weight: bold;
     z-index: 1000;
+    animation: alertPulse 0.5s ease-in-out 3;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+}
+
+@keyframes alertPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+}
+
+.explosion {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ff6b00, #ff0000);
+    animation: explode 0.5s ease-out forwards;
+    pointer-events: none;
+    z-index: 100;
+}
+
+@keyframes explode {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
 }
