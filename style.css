@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, #87CEEB, #90EE90);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.progress-container {
+    width: 100%;
+    height: 20px;
+    background: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #000;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #4CAF50, #8BC34A);
+    transition: width 0.3s ease;
+}
+
+.sun-count {
+    color: #FFD700;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.level-info {
+    color: #FF4500;
+}
+
+.plant-cards {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.card {
+    width: 80px;
+    height: 90px;
+    background: linear-gradient(to bottom, #8B4513, #654321);
+    border: 3px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card.selected {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+.card.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.card-cost {
+    font-size: 14px;
+    font-weight: bold;
+    color: #FFD700;
+}
+
+.card-name {
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(9, 70px);
+    grid-template-rows: repeat(5, 100px);
+    gap: 2px;
+    background: #228B22;
+    padding: 10px;
+    border: 3px solid #000;
+    position: relative;
+}
+
+.cell {
+    background: rgba(144, 238, 144, 0.5);
+    border: 1px solid #006400;
+    position: relative;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background: rgba(255, 255, 0, 0.3);
+}
+
+.plant {
+    width: 60px;
+    height: 80px;
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+}
+
+.plant .hp-bar {
+    width: 50px;
+    height: 5px;
+    background: #333;
+    position: absolute;
+    top: 0;
+    border-radius: 3px;
+}
+
+.plant .hp-fill {
+    height: 100%;
+    background: #00FF00;
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.zombie {
+    width: 60px;
+    height: 80px;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    transition: left 0.5s linear;
+}
+
+.zombie .hp-bar {
+    width: 50px;
+    height: 5px;
+    background: #333;
+    position: absolute;
+    top: 0;
+    border-radius: 3px;
+}
+
+.zombie .hp-fill {
+    height: 100%;
+    background: #FF0000;
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.bullet {
+    width: 15px;
+    height: 15px;
+    background: #90EE90;
+    border-radius: 50%;
+    position: absolute;
+    border: 2px solid #006400;
+    transition: left 0.1s linear;
+}
+
+.sun {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #FFD700, #FFA500);
+    border-radius: 50%;
+    position: absolute;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    animation: sunGlow 1s infinite;
+    box-shadow: 0 0 10px #FFD700;
+}
+
+@keyframes sunGlow {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+.controls {
+    margin-top: 15px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 24px;
+    z-index: 1000;
+}

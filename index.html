@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>植物大战僵尸</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <div class="sun-count">阳光: <span id="sunCount">50</span></div>
+            <div class="level-info">关卡: <span id="levelNum">1</span></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="plant-cards">
+            <div class="card" data-plant="sunflower" data-cost="50">
+                <div class="card-cost">50</div>
+                <div class="card-name">向日葵</div>
+            </div>
+            <div class="card" data-plant="peashooter" data-cost="100">
+                <div class="card-cost">100</div>
+                <div class="card-name">豌豆射手</div>
+            </div>
+            <div class="card" data-plant="wallnut" data-cost="50">
+                <div class="card-cost">50</div>
+                <div class="card-name">坚果墙</div>
+            </div>
+        </div>
+
+        <div id="gameBoard" class="game-board"></div>
+
+        <div class="controls">
+            <button id="startBtn">开始游戏</button>
+            <button id="nextLevelBtn" style="display:none;">下一关</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
